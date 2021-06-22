@@ -1,0 +1,7 @@
+version: "Apple Swift version 5.4 (swiftlang-1205.0.26.9 clang-1205.0.19.55)"
+options: "836d5e72f22a8a601426a4c00c048206"
+build_time: [1624384485, 927238000]
+inputs:
+  "/Users/alexeichigarskikh/Desktop/ObserverPattern/ObserverPattern/ViewController.swift": [1624339002, 512581706]
+  "/Users/alexeichigarskikh/Desktop/ObserverPattern/ObserverPattern/AppDelegate.swift": [1623174562, 964029908]
+  "/Users/alexeichigarskikh/Desktop/ObserverPattern/ObserverPattern/SceneDelegate.swift": [1623174562, 976208568]
