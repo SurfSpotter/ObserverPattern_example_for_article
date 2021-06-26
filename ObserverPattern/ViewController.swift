@@ -1,17 +1,10 @@
-//
-//  ViewController.swift
-//  ObserverPattern
-//
-//  Created by Алексей Чигарских on 08.06.2021.
-//
-
 import UIKit
 
 class ViewController: UIViewController, Subscriber {
     
     @IBOutlet weak var subscriberInfoLabel: UILabel!
     
-    let bloger = Bloger()
+    var bloger = Bloger()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,31 +28,34 @@ class ViewController: UIViewController, Subscriber {
 }
 
 //MARK:- Protocols
-protocol Subscriber : AnyObject {
+protocol Subscriber : UIViewController {
     func update(subject : Bloger )
+}
+
+//Fix retain cycle
+struct WeakSubscriber { // структура служит для хранения объекта со слабой ссылкой
+    weak var value : Subscriber?
 }
 
 class Bloger {
     
+    private lazy var subscribers : [WeakSubscriber] = [] // Создаем массив с подписчиками
+    
     var counter : Int = 0
     var lastVideo = ""
     
-    private lazy var subscribers : [Subscriber] = [] // Создаем массив с подписчиками
-    
     func subscribe(_ subscriber: Subscriber) {
         print("subscribed")
-        subscribers.append(subscriber)
+        subscribers.append(WeakSubscriber(value: subscriber))
     }
     
     func unsubscribe(_ subscriber: Subscriber) {
+        subscribers.removeAll(where: { $0.value === subscriber })
         print("unsubscribed")
-        if let index = subscribers.firstIndex(where: {$0 === subscriber}) {
-            subscribers.remove(at: index)
-        }
     }
     
     func notify() {
-        subscribers.forEach { $0.update(subject: self)
+        subscribers.forEach { $0.value?.update(subject: self)
         }
     }
     
